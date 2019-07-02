@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private UartManager mUartManager;
     private EditText mEt_file;
     private File mFirmwareFile;
-    private String mName = "ttyS5";
+    private String mName = "ttyHSL1";
     private String mBaud = "115200";
     private ProgressBar mPBProgressBar;
     private Button mBtnstatdownload;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        closeE9631ttyS5();
+//        closeE9631ttyS5();
         initView();
         EventBus.getDefault().register(this);
         mSp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -134,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
         mBtnstatdownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeData();
-                mTvresult.setText("");
+                Log.e("gh0st", "zzzz>>>> start");
+//                writeData();
+                mTvresult.setText("zeng>>");
                 mPBProgressBar.setVisibility(View.VISIBLE);
                 Constants.sCurrentPro = 0;
                 Constants.sCountPro = 0;
@@ -143,9 +144,12 @@ public class MainActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.e("gh0st", "zzzz>>>> uart is null???");
                             if (mUartManager != null) {
                                 try {
+                                    Log.e("gh0st", "zzzz>>>> uart is open??");
                                     if (mUartManager.isOpen()) {
+                                        Log.e("gh0st", "zzzz>>>> ymodem send start");
                                         new YModem(mUartManager).send(mFirmwareFile);
                                     }
                                 } catch (IOException e) {
@@ -207,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     mBtnstatdownload.setEnabled(true);
                     try {
                         mUartManager = new UartManager();
+                        Log.e("gh0st", "zzzz>>>> uart open" + mName + mBaud);
                         mUartManager.open(mName, getBaudRate(Integer.valueOf(mBaud)));
                     } catch (LastError lastError) {
                         Toast.makeText(this, lastError.toString(), Toast.LENGTH_SHORT).show();

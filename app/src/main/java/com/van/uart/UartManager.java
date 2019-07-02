@@ -1,5 +1,7 @@
 package com.van.uart;
 
+import android.util.Log;
+
 public class UartManager {
 	
 	static {
@@ -30,7 +32,7 @@ public class UartManager {
 	
 	public void open(String name, BaudRate baudRate) throws LastError {
 		id = open(name, baudRate.ordinal());
-		
+		Log.e("gh0st", "zzzz>>>> id " + id + name + baudRate);
 		this.name = name;
 		this.baudRate = baudRate;
 	}
